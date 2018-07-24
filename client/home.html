@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    <h1>HOME</h1>
+    <div id="app">
+        <input type="text" placeholder="todo" v-model="todo">
+        <input type="number" v-model="deadline">
+        <input type="button" value="click" v-on:click="addtodo">
+        <input type="button" value="logout" v-on:click="logout">
+
+        <!-- {{name}} -->
+        <table>
+            <tr>
+                <th>todo</th>
+                <th>deadline</th>
+                <th>status</th>
+                <!-- <th>id</th> -->
+                <th>option</th>
+            </tr>
+            <tr v-for= "todo in todos">
+                <td>{{todo.todo}}</td>
+                <td>{{todo.deadLine}}</td>
+                <td>{{todo.status}}</td>
+                <!-- <td>{{todo._id}}</td> -->
+                <td><button v-on:click="edit=todo" v-on:click="update(todo)">update</button> || <button v-on:click="deletetodo(todo._id)">delete</button></td>
+                <td><button v-on:click="changestatus(todo)">change</button> <h4>{{todo.status}}</h4></td>
+            </tr>
+        </table>
+
+        <div id="edit">
+            <h3>edit</h3>
+            <input type="text" v-model=edit.todo>
+            <input type="button" value="edit" v-on:click="updatetodo">
+        </div>
+        {{edit}}
+        {{test}}
+    </div>
+
+    <script src="fb.js"></script>    
+    <script>
+    var app = new Vue({
+            el: '#app',
+            data: {
+                name:'',
+                todo:'',
+                deadline:'',
+                error:'',
+                todos:'',
+                edit:'',
+                test:''
+            },
+            mounted(){
+                let token = localStorage.getItem('tokenjwt')
+                // console.log("testttt token",token);
+                // this.test = "dg"
+                
+                if(!token){
+                    window.location = "index.html"
+                }
+            },
+            methods:{
+                addtodo: function(){
+                    var validtoken = localStorage.getItem('tokenjwt')
+                    var data = {
+                        todo:this.todo,
+                        deadline:this.deadline
+                    }
+                    var head = {
+                        headers:{
+                            tokenjwt:validtoken
+                        }
+                    }
+                    // this.name = data
+                    // this.name=head
+                    axios.post('http://localhost:3000/todos/add',{         
+                        todo:this.todo,
+                        deadline:this.deadline
+                    },{
+                        headers:{
+                            tokenjwt:validtoken
+                        }  
+                    })
+                    .then(todo=>{
+                        // this.name=todo
+                        window.location ='home.html'
+
+                        console.log(todo); 
+                    })
+                    .catch(err=>{
+                        console.log(err);
+                        
+                    })
+                },
+                gettodos: function(){
+                    var validtoken = localStorage.getItem('tokenjwt')
+                    axios.get('http://localhost:3000/todos',{
+                        headers:{
+                            tokenjwt:validtoken
+                        }
+                    })
+                    .then(todos=>{
+                        this.todos = todos.data
+                        console.log(todos);
+                        
+                    })
+                    .catch(err=>{
+                        console.log(err);
+                        
+                    })
+                },
+                logout: function(){
+                    FB.logout(function(response) {
+                        localStorage.clear()                        
+                        window.location ='index.html'
+                    });
+                },
+                updatetodo: function(todo){
+                    var id = this.edit._id
+                    axios.put(`http://localhost:3000/todos/edit/${id}`,{         
+                        todo:this.edit.todo
+                    })
+                    .then(todo=>{
+                        console.log(todo);
+                        this.test = todo
+                        window.location = 'home.html'
+                    })
+                    .catch(err=>{
+                        console.log(err);
+                        
+                    })
+                },
+                deletetodo: function(id){
+                    axios.delete(`http://localhost:3000/todos/delete/${id}`)
+                    .then(todo=>{
+                        console.log(todo);
+                        this.test=todo
+                        window.location = 'home.html'
+                    })
+                    .catch(err=>{
+                        console.log(err);
+                        
+                    })
+                },
+                changestatus: function(todo){
+                    var change = ''
+                    if(todo.status=="uncomplete"){
+                        change = 'complete'
+                    }else{
+                        change = 'uncomplete'
+                    }
+                    axios.put(`http://localhost:3000/todos/status/${todo._id}`,{
+                        status:change
+                    })
+                    .then(todo=>{
+                        console.log(todo);
+                        this.test=todo
+                        window.location = 'home.html'
+                    })
+                    .catch(err=>{
+                        console.log(err);
+                        
+                    })
+                }
+            },
+            created(){
+                this.gettodos()
+            }
+
+        })
+    </script>
+</body>
+</html>

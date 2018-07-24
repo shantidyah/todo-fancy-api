@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    <h1>register</h1>
+    <div id="app">
+        <input type="text" placeholder="name" v-model='name'>
+        <input type="text" placeholder="email" v-model='email'>
+        <input type="password" v-model='password'>
+        <input type="button" value="regist" v-on:click="adduser"> 
+
+        <br><br>
+
+        
+        <input type="text" placeholder="email" v-model="email">
+        <input type="password" v-model="password">
+        <input type="button" value="login" v-on:click="login">
+        
+        {{error}}
+    </div>
+
+    <fb:login-button scope="public_profile,email" onlogin="checkLoginState();" id="login" >
+        login facebook
+    </fb:login-button>
+
+    <!-- <input type="button" value="logout" onclick="logoutfb()"> -->
+    
+                    
+    
+    <script src="fb.js"></script>
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+                name:'',
+                email:'',
+                password:'',
+                error:''
+            },
+            created(){
+                let token = localStorage.getItem('tokenjwt')
+                if(token){
+                    // this.error=token
+                    window.location = "home.html"
+                }
+            },
+            methods:{
+                adduser: function(){
+
+                    axios.post('http://localhost:3000/users/add',{
+                        name:this.name,
+                        email:this.email,
+                        password:this.password
+                    })
+                    .then(data => {
+                            console.log(data.data);
+                    })
+                    .catch(error => {
+                        console.log(error)
+                    })
+
+                },
+                login: function(){
+                    axios.post('http://localhost:3000/login/',{
+                        email:this.email,
+                        password:this.password
+                    })
+                    .then(user=>{
+                        console.log(user);
+                        if(user.data=='x'){
+                            this.error = "your password wrong"
+                        }
+                        else{
+                            localStorage.setItem("tokenjwt", user.data)
+                            console.log(user.data);
+                            
+                            window.location ='home.html'
+                        }
+                    })
+                    .catch(err=>{
+                        console.log("masuk error");
+                        
+                        console.log(err);
+                        
+                    })
+                }
+            }
+        })
+    </script>
+</body>
+</html>
