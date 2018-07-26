@@ -6,42 +6,110 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/css/materialize.min.css">
+
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/js/materialize.min.js"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    
     <title>Document</title>
 </head>
 <body>
-    <h1>HOME</h1>
     <div id="app">
-        <input type="text" placeholder="todo" v-model="todo">
-        <input type="number" v-model="deadline">
-        <input type="button" value="click" v-on:click="addtodo">
-        <input type="button" value="logout" v-on:click="logout">
 
-        <!-- {{name}} -->
-        <table>
-            <tr>
-                <th>todo</th>
-                <th>deadline</th>
-                <th>status</th>
-                <!-- <th>id</th> -->
-                <th>option</th>
-            </tr>
-            <tr v-for= "todo in todos">
-                <td>{{todo.todo}}</td>
-                <td>{{todo.deadLine}}</td>
-                <td>{{todo.status}}</td>
-                <!-- <td>{{todo._id}}</td> -->
-                <td><button v-on:click="edit=todo" v-on:click="update(todo)">update</button> || <button v-on:click="deletetodo(todo._id)">delete</button></td>
-                <td><button v-on:click="changestatus(todo)">change</button> <h4>{{todo.status}}</h4></td>
-            </tr>
-        </table>
+        <nav>
+            <div class="nav-wrapper">
+                <a href="#" class="brand-logo" v-on:click="seen=true" style="padding-left: 25px">{{user.name}} todo's</a>
+                <ul id="nav-mobile" class="right hide-on-med-and-down">
+                <li><a v-on:click="seen=true">menu</a></li>
+                <li><a v-on:click="seen=false">addtodo</a></li>
+                <li><a href="youtube.html">youtube</a></li>
+                <li><a v-on:click="logout">logout</a></li>
+                </ul>
+            </div>
+        </nav>
 
-        <div id="edit">
-            <h3>edit</h3>
-            <input type="text" v-model=edit.todo>
-            <input type="button" value="edit" v-on:click="updatetodo">
+        
+        <div id='todolist' v-if="seen" style="padding-left: 100px; padding-right: 100px">
+            <div id="edit" >
+                    <h5>edit</h5>
+                    <div class="row">
+                        <div class="input-field col s6">
+                            <i class="material-icons prefix">edit</i>
+                            <input id="icon_email" type="text" class="validate" v-model=edit.todo>
+                            <label for="icon_email">Todo</label>
+                        </div>
+                        <button class="btn waves-effect waves-light" type="submit" name="action" v-on:click="updatetodo">submit
+                                <i class="material-icons right">send</i>
+                        </button>
+                    </div>
+            </div>
+            <div id="tabeltodo">
+
+                <table class="highlight centered">
+                    <tr>
+                        <td style="font-weight: bold; font-size:20px">Todo</td>
+                        <td style="font-weight: bold; font-size:20px">Create</td>
+                        <td style="font-weight: bold; font-size:20px">Deadline</td>
+                        <td style="font-weight: bold; font-size:20px">Status</td>
+                    </tr>
+                    <tr v-for= "todo in todos">
+                        <!-- {{todo}} -->
+                        <td>{{todo.todo}}</td>
+                    <td>{{todo.createdAt}}</td>
+                    <td>{{todo.deadLine}}</td>
+                    <td>{{todo.status}}</td>
+                    <td>
+                        <button class="btn waves-effect waves-light" type="submit" name="action" v-on:click="edit=todo" v-on:click="update(todo)">
+                            <i class="material-icons center">edit</i>
+                        </button>
+                        <!-- <i class="material-icons prefix">edit</i>                        
+                            <button v-on:click="edit=todo" v-on:click="update(todo)">edit</button> -->
+                        </td>
+                        <td>
+                            <button class="btn waves-effect waves-light" type="submit" name="action" v-on:click="deletetodo(todo._id)">
+                                <i class="material-icons center">delete</i>
+                            </button>
+                            <!-- <i class="material-icons prefix">delete</i>                                                
+                                <button v-on:click="deletetodo(todo._id)">delete</button></td> -->
+                                <td>
+                                    <button class="btn waves-effect waves-light" type="submit" name="action" v-on:click="changestatus(todo)">
+                                        <i class="material-icons center">check_circle</i>
+                                    </button>
+                                    <!-- <i class="material-icons prefix">check_circle</i>
+                                        <button v-on:click="changestatus(todo)">change</button> -->
+                                    </td>
+                                </tr>
+                </table>
+            </div>
         </div>
-        {{edit}}
-        {{test}}
+                        
+        <div id='addtodo' style="padding-left: 100px; padding-right: 100px; padding-top: 80px" v-else>
+            <div class="row">
+                <div class="input-field col s6">
+                    <i class="material-icons prefix">assignment</i>
+                    <input id="icon_email" type="text" class="validate" v-model="todo">
+                    <label for="icon_email">Todo</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s6">
+                    <i class="material-icons prefix">timelapse</i>
+                    <input id="icon_email" type="number" class="validate" v-model="deadline">
+                    <label for="icon_email">Due Date</label>
+                </div>
+            </div>
+            <button class="btn waves-effect waves-light" type="submit" name="action" v-on:click="addtodo">submit
+                    <i class="material-icons right">send</i>
+            </button>
+        </div>
+        
+    
+
+        <!-- {{edit.todo}} -->
+        <!-- {{user}} -->
     </div>
 
     <script src="fb.js"></script>    
@@ -55,7 +123,9 @@
                 error:'',
                 todos:'',
                 edit:'',
-                test:''
+                user:'',
+                seen:true,
+                show:false
             },
             mounted(){
                 let token = localStorage.getItem('tokenjwt')
@@ -80,24 +150,29 @@
                     }
                     // this.name = data
                     // this.name=head
-                    axios.post('http://localhost:3000/todos/add',{         
-                        todo:this.todo,
-                        deadline:this.deadline
-                    },{
-                        headers:{
-                            tokenjwt:validtoken
-                        }  
-                    })
-                    .then(todo=>{
-                        // this.name=todo
-                        window.location ='home.html'
-
-                        console.log(todo); 
-                    })
-                    .catch(err=>{
-                        console.log(err);
-                        
-                    })
+                    if(this.todo.length>0){
+                        axios.post('http://localhost:3000/todos/add',{         
+                            todo:this.todo,
+                            deadline:this.deadline
+                        },{
+                            headers:{
+                                tokenjwt:validtoken
+                            }  
+                        })
+                        .then(todo=>{
+                            // this.name=todo
+                            window.location ='home.html'
+    
+                            console.log(todo); 
+                        })
+                        .catch(err=>{
+                            console.log(err);
+                            
+                        })
+                    }
+                    else{
+                        alert("todo cannot empty")
+                    }
                 },
                 gettodos: function(){
                     var validtoken = localStorage.getItem('tokenjwt')
@@ -117,6 +192,8 @@
                     })
                 },
                 logout: function(){
+                    localStorage.clear()                        
+
                     FB.logout(function(response) {
                         localStorage.clear()                        
                         window.location ='index.html'
@@ -124,24 +201,30 @@
                 },
                 updatetodo: function(todo){
                     var id = this.edit._id
-                    axios.put(`http://localhost:3000/todos/edit/${id}`,{         
-                        todo:this.edit.todo
-                    })
-                    .then(todo=>{
-                        console.log(todo);
-                        this.test = todo
+                    if(this.edit.todo.length>1){
+                        axios.put(`http://localhost:3000/todos/edit/${id}`,{         
+                            todo:this.edit.todo
+                        })
+                        .then(todo=>{
+                            console.log(todo);
+                            this.test = todo
+                            window.location = 'home.html'
+                        })
+                        .catch(err=>{
+                            console.log(err);
+                            
+                        })
+                    }
+                    else{
                         window.location = 'home.html'
-                    })
-                    .catch(err=>{
-                        console.log(err);
-                        
-                    })
+                    }
                 },
                 deletetodo: function(id){
                     axios.delete(`http://localhost:3000/todos/delete/${id}`)
                     .then(todo=>{
                         console.log(todo);
                         this.test=todo
+                        alert("success delete a task")
                         window.location = 'home.html'
                     })
                     .catch(err=>{
@@ -150,11 +233,12 @@
                     })
                 },
                 changestatus: function(todo){
-                    var change = ''
+                    var change = 'complete'
+
                     if(todo.status=="uncomplete"){
-                        change = 'complete'
+                        var change = 'complete'
                     }else{
-                        change = 'uncomplete'
+                        alert("this task already complete")
                     }
                     axios.put(`http://localhost:3000/todos/status/${todo._id}`,{
                         status:change
@@ -168,10 +252,26 @@
                         console.log(err);
                         
                     })
+                },
+                covertToken: function(){
+                    var validtoken = localStorage.getItem('tokenjwt')
+
+                    axios.get('http://localhost:3000/converttoken',{
+                        headers:{
+                            tokenjwt:validtoken
+                        }
+                    })
+                    .then(convert=>{
+                        this.user=convert.data
+                    })
+                    .catch(err=>{
+                        console.log(err);
+                    })
                 }
             },
             created(){
                 this.gettodos()
+                this.covertToken()
             }
 
         })

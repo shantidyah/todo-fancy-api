@@ -16,22 +16,32 @@ router.post('/login', function(req, res) {
       res.json(err)
     }
     else{
-      var statusPass = bcrypt.compareSync(req.body.password, user.password);
-      // console.log(statusPass);
-      // console.log(user);
-      if(statusPass){
-        const token = jwt.sign({ id: user._id, name: user.name, email: user.email }, process.env.secret_key)
-        
-        res.json(token)
+      if(user!=null){
+        var statusPass = bcrypt.compareSync(req.body.password, user.password);
+        if(statusPass){
+          const token = jwt.sign({ id: user._id, name: user.name, email: user.email }, process.env.secret_key)
+          
+          res.json(token)
+        }
+        else{
+          console.log("your password wrong");
+          res.json("x")
+        }
       }
       else{
-        console.log("your password wrong");
-        res.json("x")
+        res.json("o")
       }
     }
   })
 });
 
 router.get('/login/fb',getDataFromFb)
+
+
+router.get('/converttoken',function(req,res){
+  var decode = jwt.verify(req.headers.tokenjwt, process.env.secret_key)
+  // console.log(decode);
+  res.json(decode)
+})
 
 module.exports = router;

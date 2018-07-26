@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+        
+        <!-- Compiled and minified CSS -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/css/materialize.min.css">
+        
+        <!-- Compiled and minified JavaScript -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/js/materialize.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://apis.google.com/js/client.js?onload=googleApiClientReady"></script>
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <title>Document</title>
+</head>
+<body>
+    
+    <div id="app">      
+        <nav>
+          <div class="nav-wrapper">
+            <a href="#" class="brand-logo" style="padding-left: 25px">{{user.name}} todo's</a>
+            <ul id="nav-mobile" class="right hide-on-med-and-down">
+              <li><a href="home.html">Back</a></li>
+            </ul>
+          </div>
+        </nav>
+
+
+        <div id="search" style="padding-top: 30px; padding-left: 10px">
+          <div class="row">
+              <div class="input-field col s6">
+                  <i class="material-icons prefix">searching</i>
+                  <!-- <input id="icon_email" type="text" class="validate" v-model=edit.todo> -->
+                  <input id="icon_email" type="text" class="validate" v-model="querys">
+                  <label for="icon_email">search</label>
+              </div>
+              <div id="button" style="padding-top: 15px">
+
+                <button class="btn waves-effect waves-light" type="submit" name="action" v-on:click="searching">submit
+                  <i class="material-icons right">send</i>
+                </button>
+              </div>
+          </div>
+        </div>
+        <div class="row">
+          <div v-for="item in result">
+            <div class="col s12 m4 l3">
+                <div class="card small">
+                    <div class="card-image">  
+                        <iframe width="" height="" v-bind:src="'https://www.youtube.com/embed/' + item.id.videoId "></iframe>
+                        <!-- <span class="card-title">{{item.snipet}}</span> -->
+                    </div>
+                    <div class="card-content">
+                      {{item.snippet.title}}
+                    </div>
+                </div>
+            </div>
+          </div>
+        </div>
+        <!-- {{result}} -->
+        
+    </div>
+    <!-- <script src=""></script> -->
+    <script src="youtube.js"></script>
+</body>
+</html>

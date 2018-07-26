@@ -10,13 +10,14 @@ class FbController{
         FB.api('me',{
             fields: ['id','name','email'], access_token: req.headers.token
         }, function(response){
-            console.log(response);
+            // console.log(response);
             User.findOne({
                 email:response.email
             })
             .then(result=>{
                 if(result){
                     var token = jwt.sign({
+                        name:result.name,
                         data: result.email,
                         id: result._id
                     }, process.env.secret_key)
@@ -34,7 +35,7 @@ class FbController{
                         password:hash
                     })
                     .then(user=>{
-                        console.log(user);
+                        // console.log(user);
                         var token = jwt.sign({
                             data: user.email,
                             id: user._id

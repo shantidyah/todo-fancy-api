@@ -11,7 +11,7 @@ const schemaTodo = new Schema({
     idUser: String,
     // { type: Schema.Types.ObjectId, ref: 'User' },
     deadLine : String,
-    todoCreate : { type: Date, default: Date.now },
+    create : String,
     status: { type: String, default: 'uncomplete' }
 },{
     timestamps:true
