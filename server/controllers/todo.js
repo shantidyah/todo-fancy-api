@@ -24,13 +24,19 @@ class Todo{
         var decode = jwt.verify(req.headers.tokenjwt, process.env.secret_key)
         var date = Number(req.body.deadline)
         var createDate = new Date()
-        var deadLine = createDate.setDate(createDate.getDate()+date)
+        var deadline = createDate.setDate(createDate.getDate()+date)
+        var deadLine = new Date(deadline)
+        var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+        var year = deadLine.getFullYear()
+        var month = months[deadLine.getMonth()]
+        var day = deadLine.getDate()
+        var duedate = `${day} ${month} ${year}`
 
         // console.log(decode);
         Todos.create({
             todo:req.body.todo,
             idUser:decode.id,
-            deadLine:new Date(deadLine)
+            deadLine: duedate
         },function(err,todo){
             if(err){
                 console.log(err);

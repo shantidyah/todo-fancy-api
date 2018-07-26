@@ -6,26 +6,86 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/css/materialize.min.css">
+
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/js/materialize.min.js"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <title>Document</title>
 </head>
 <body>
-    <h1>register</h1>
+
     <div id="app">
-        <input type="text" placeholder="name" v-model='name'>
-        <input type="text" placeholder="email" v-model='email'>
-        <input type="password" v-model='password'>
-        <input type="button" value="regist" v-on:click="adduser"> 
+        <nav>
+            <div class="nav-wrapper">
+                <a href="#" class="brand-logo" style="padding-left: 25px">TODO-FANCY</a>
+                <ul id="nav-mobile" class="right hide-on-med-and-down">
+                <li><a v-on:click="seen=true">Login</a></li>
+                <li><a v-on:click="seen=false" v-on:click="email=''" v-on:click="password=''">Register</a></li>
+                </ul>
+            </div>
+        </nav>
 
         <br><br>
+        
+        <div id="login" v-if="seen" style="padding-left: 30px">
+            <div class="row">
+                <div class="row">
+                    <div class="input-field col s6">
+                        <i class="material-icons prefix">email</i>
+                        <input id="icon_email" type="text" class="validate" v-model="loginemail">
+                        <label for="icon_email">Email</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s6">
+                        <i class="material-icons prefix">enhanced_encryption</i>
+                        <input id="icon_pass" type="password" class="validate" v-model="loginpass">
+                        <label for="icon_pass">Password</label>
+                    </div>
+                </div>
 
-        
-        <input type="text" placeholder="email" v-model="email">
-        <input type="password" v-model="password">
-        <input type="button" value="login" v-on:click="login">
-        
+                <button class="btn waves-effect waves-light" type="submit" name="action" v-on:click="login">Login
+                        <i class="material-icons right">send</i>
+                </button>
+            </div>
+        </div>
+
+
+        <div id="register" v-else style="padding-left: 30px">
+            <div class="row">
+                <div class="row">
+                    <div class="input-field col s6">
+                        <i class="material-icons prefix">account_circle</i>
+                        <input id="icon_email" type="text" class="validate" v-model='name'>
+                        <label for="icon_email">Name</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s6">
+                        <i class="material-icons prefix">email</i>
+                        <input id="icon_email" type="text" class="validate" v-model="email">
+                        <label for="icon_email">Email</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s6">
+                        <i class="material-icons prefix">enhanced_encryption</i>
+                        <input id="icon_pass" type="password" class="validate" v-model="password">
+                        <label for="icon_pass">Password</label>
+                    </div>
+                </div>
+                <button class="btn waves-effect waves-light" type="submit" name="action" v-on:click="adduser">Register
+                        <i class="material-icons right">send</i>
+                </button>
+            </div>
+        </div>
         {{error}}
     </div>
 
+    <br><br>
     <fb:login-button scope="public_profile,email" onlogin="checkLoginState();" id="login" >
         login facebook
     </fb:login-button>
@@ -42,9 +102,14 @@
                 name:'',
                 email:'',
                 password:'',
-                error:''
+                loginemail:'',
+                loginpass:'',
+                error:'',
+                seen:true
             },
             created(){
+                this.name = ''
+                this.email = ''
                 let token = localStorage.getItem('tokenjwt')
                 if(token){
                     // this.error=token
@@ -61,6 +126,7 @@
                     })
                     .then(data => {
                             console.log(data.data);
+                            window.location ='index.html'
                     })
                     .catch(error => {
                         console.log(error)
@@ -69,13 +135,16 @@
                 },
                 login: function(){
                     axios.post('http://localhost:3000/login/',{
-                        email:this.email,
-                        password:this.password
+                        email:this.loginemail,
+                        password:this.loginpass
                     })
                     .then(user=>{
                         console.log(user);
                         if(user.data=='x'){
                             this.error = "your password wrong"
+                        }
+                        else if(user.data=='o'){
+                            this.error = "your email invalid"
                         }
                         else{
                             localStorage.setItem("tokenjwt", user.data)
@@ -96,3 +165,10 @@
     </script>
 </body>
 </html>
+
+
+
+
+
+
+
