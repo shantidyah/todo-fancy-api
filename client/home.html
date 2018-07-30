@@ -151,7 +151,7 @@
                     // this.name = data
                     // this.name=head
                     if(this.todo.length>0){
-                        axios.post('http://localhost:3000/todos/add',{         
+                        axios.post('http://35.197.159.230/todos/add',{         
                             todo:this.todo,
                             deadline:this.deadline
                         },{
@@ -176,7 +176,7 @@
                 },
                 gettodos: function(){
                     var validtoken = localStorage.getItem('tokenjwt')
-                    axios.get('http://localhost:3000/todos',{
+                    axios.get('http://35.197.159.230/todos',{
                         headers:{
                             tokenjwt:validtoken
                         }
@@ -202,7 +202,7 @@
                 updatetodo: function(todo){
                     var id = this.edit._id
                     if(this.edit.todo.length>1){
-                        axios.put(`http://localhost:3000/todos/edit/${id}`,{         
+                        axios.put(`http://35.197.159.230/todos/edit/${id}`,{         
                             todo:this.edit.todo
                         })
                         .then(todo=>{
@@ -220,7 +220,7 @@
                     }
                 },
                 deletetodo: function(id){
-                    axios.delete(`http://localhost:3000/todos/delete/${id}`)
+                    axios.delete(`http://35.197.159.230/todos/delete/${id}`)
                     .then(todo=>{
                         console.log(todo);
                         this.test=todo
@@ -240,7 +240,7 @@
                     }else{
                         alert("this task already complete")
                     }
-                    axios.put(`http://localhost:3000/todos/status/${todo._id}`,{
+                    axios.put(`http://35.197.159.230/todos/status/${todo._id}`,{
                         status:change
                     })
                     .then(todo=>{
@@ -256,7 +256,7 @@
                 covertToken: function(){
                     var validtoken = localStorage.getItem('tokenjwt')
 
-                    axios.get('http://localhost:3000/converttoken',{
+                    axios.get('http://35.197.159.230/converttoken',{
                         headers:{
                             tokenjwt:validtoken
                         }

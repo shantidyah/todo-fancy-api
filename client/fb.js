@@ -10,7 +10,8 @@
     if (response.status === 'connected') {
       localStorage.setItem("token", response.authResponse.accessToken) // set token
       // Logged into your app and Facebook.
-        axios.get('http://localhost:3000/login/fb', {
+      
+        axios.get('http://35.197.159.230/login/fb', {
             headers:{
                 token: localStorage.getItem('token') 
             }

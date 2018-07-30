@@ -119,7 +119,7 @@
             methods:{
                 adduser: function(){
 
-                    axios.post('http://localhost:3000/users/add',{
+                    axios.post('http://35.197.159.230/users/add',{
                         name:this.name,
                         email:this.email,
                         password:this.password
@@ -134,7 +134,7 @@
 
                 },
                 login: function(){
-                    axios.post('http://localhost:3000/login/',{
+                    axios.post('http://35.197.159.230/login/',{
                         email:this.loginemail,
                         password:this.loginpass
                     })
