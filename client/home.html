@@ -17,8 +17,7 @@
     <title>Home</title>
 </head>
 <body>
-    <div id="app">
-
+    <div id="app" v-cloak>
         <nav>
             <div class="nav-wrapper">
                 <a href="#" class="brand-logo" v-on:click="seen=true" style="padding-left: 25px">{{user.name}} todo's</a>
@@ -151,7 +150,7 @@
                     // this.name = data
                     // this.name=head
                     if(this.todo.length>0){
-                        axios.post('http://35.197.159.230/todos/add',{         
+                        axios.post('https://todo-server.shantidyah.club/todos/add',{         
                             todo:this.todo,
                             deadline:this.deadline
                         },{
@@ -176,7 +175,7 @@
                 },
                 gettodos: function(){
                     var validtoken = localStorage.getItem('tokenjwt')
-                    axios.get('http://35.197.159.230/todos',{
+                    axios.get('https://todo-server.shantidyah.club/todos',{
                         headers:{
                             tokenjwt:validtoken
                         }
@@ -198,11 +197,13 @@
                         localStorage.clear()                        
                         window.location ='index.html'
                     });
+                    window.location ='index.html'
+
                 },
                 updatetodo: function(todo){
                     var id = this.edit._id
                     if(this.edit.todo.length>1){
-                        axios.put(`http://35.197.159.230/todos/edit/${id}`,{         
+                        axios.put(`https://todo-server.shantidyah.club/todos/edit/${id}`,{         
                             todo:this.edit.todo
                         })
                         .then(todo=>{
@@ -220,7 +221,7 @@
                     }
                 },
                 deletetodo: function(id){
-                    axios.delete(`http://35.197.159.230/todos/delete/${id}`)
+                    axios.delete(`https://todo-server.shantidyah.club/todos/delete/${id}`)
                     .then(todo=>{
                         console.log(todo);
                         this.test=todo
@@ -240,7 +241,7 @@
                     }else{
                         alert("this task already complete")
                     }
-                    axios.put(`http://35.197.159.230/todos/status/${todo._id}`,{
+                    axios.put(`https://todo-server.shantidyah.club/todos/status/${todo._id}`,{
                         status:change
                     })
                     .then(todo=>{
@@ -256,7 +257,7 @@
                 covertToken: function(){
                     var validtoken = localStorage.getItem('tokenjwt')
 
-                    axios.get('http://35.197.159.230/converttoken',{
+                    axios.get('https://todo-server.shantidyah.club/converttoken',{
                         headers:{
                             tokenjwt:validtoken
                         }
@@ -276,5 +277,10 @@
 
         })
     </script>
+    <style>
+        [v-cloak]{
+            display:none
+        }
+    </style>
 </body>
 </html>

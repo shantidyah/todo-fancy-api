@@ -17,7 +17,7 @@
 </head>
 <body>
 
-    <div id="app">
+    <div id="app" v-cloak>
         <nav>
             <div class="nav-wrapper">
                 <a href="#" class="brand-logo" style="padding-left: 25px">TODO-FANCY</a>
@@ -119,7 +119,7 @@
             methods:{
                 adduser: function(){
 
-                    axios.post('http://35.197.159.230/users/add',{
+                    axios.post('https://todo-server.shantidyah.club/users/add',{
                         name:this.name,
                         email:this.email,
                         password:this.password
@@ -134,7 +134,7 @@
 
                 },
                 login: function(){
-                    axios.post('http://35.197.159.230/login/',{
+                    axios.post('https://todo-server.shantidyah.club/login/',{
                         email:this.loginemail,
                         password:this.loginpass
                     })
@@ -163,6 +163,11 @@
             }
         })
     </script>
+    <style>
+        [v-cloak]{
+            display:none
+        }
+    </style>
 </body>
 </html>
 

@@ -11,7 +11,7 @@
       localStorage.setItem("token", response.authResponse.accessToken) // set token
       // Logged into your app and Facebook.
       
-        axios.get('http://35.197.159.230/login/fb', {
+        axios.get('https://todo-server.shantidyah.club/login/fb', {
             headers:{
                 token: localStorage.getItem('token') 
             }
@@ -46,7 +46,7 @@
 
   window.fbAsyncInit = function() {
     FB.init({
-      appId      : '304140996796558',
+      appId      : '470932540044816',
       cookie     : true,  // enable cookies to allow the server to access 
                           // the session
       xfbml      : true,  // parse social plugins on this page

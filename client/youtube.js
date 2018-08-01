@@ -42,7 +42,7 @@ let Youtube = new Vue({
       covertToken: function(){
         var validtoken = localStorage.getItem('tokenjwt')
 
-        axios.get('http://35.197.159.230/converttoken',{
+        axios.get('https://todo-server.shantidyah.club/converttoken',{
             headers:{
                 tokenjwt:validtoken
             }
